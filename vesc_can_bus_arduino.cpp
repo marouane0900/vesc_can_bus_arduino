@@ -91,6 +91,16 @@ void CAN::vesc_set_current(float current) {
   byte sndStat = CAN0.sendMsgBuf(0x0000010A, 1, 4, buffer);
 }
 
+void CAN::vesc_set_current_brake(float current) {
+  uint32_t set_value = current * 1000;
+  uint8_t buffer[4];
+  buffer[0] = (set_value >> 24) & 0xFF;
+  buffer[1] = (set_value >> 16) & 0xFF;
+  buffer[2] = (set_value  >> 8  )  & 0xFF;
+  buffer[3] = set_value & 0xFF;
+  byte sndStat = CAN0.sendMsgBuf(0x0000020A, 1, 4, buffer);
+}
+
 void CAN::vesc_set_erpm(float erpm) {
   uint32_t set_value = erpm;
   uint8_t buffer[4];
